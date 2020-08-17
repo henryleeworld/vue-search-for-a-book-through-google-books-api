@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta property="og:title" content="透過 Google 圖書應用程式介面搜尋一本書" />
+        <meta property="og:description" content="使用者直接透過搜尋全球最詳盡的全文圖書索引目錄，這些書籍中有一部分是由出版商提供，另一部分則是 Google 的圖書館計劃所掃描的書籍。" />
+        <meta property="og:locale" content="zh_TW" />
+        <meta property="og:type" content="website" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="css/search-for-a-book.css" />
+        <title>透過 Google 圖書應用程式介面搜尋一本書</title>
+    </head>
+    <body>
+        <div id="app">
+            <form id="book-search" @submit.prevent="search">
+                <label>
+                    <span>搜尋一本書</span>
+                    <input type="text" v-model:trim="searchTerm" placeholder="⌕" />
+                </label>
+                <button type="submit">搜尋</button>
+            </form>
+            <ol class="search-results">
+                <li class="search-result" v-for="book in searchResults.items">
+                    <img :src="'http://books.google.com/books/content?id=' + book.id + '&printsec=frontcover&img=1&zoom=1&source=gbs_api'" class="search-result--thumbnail" />
+                    <ul class="search-result--info">
+                        <li class="search-result--title">{{ book.volumeInfo.title }}</li>
+                        <li v-if="book.volumeInfo.authors" class="search-result--authors">
+                            作者：{{ bookAuthors(book) }}
+                        </li>
+
+                        <li v-if="book.volumeInfo.publishedDate" class="search-result--published"><span>出版日期：</span>{{ book.volumeInfo.publishedDate }}</li>
+                    </ul>
+                </li>
+            </ol>
+            <img src="images/read-a-book.png" id="all-the-books" class="center" v-if="searchResults.items" />
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js" integrity="sha512-QJsj3afWlCpnQ60XzzYE8Jb3IgHIK1BcGZox9rUSmRRq3Ocz9vQ1yR80eX2/b9jfx/UuT5zYWNdrM8Te/eCMhQ==" crossorigin="anonymous" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha512-VZ6m0F78+yo3sbu48gElK4irv2dzPoep8oo9LEjxviigcnnnNvnTOJRSrIhuFk68FMLOpiNz+T77nNY89rnWDg==" crossorigin="anonymous" defer></script>
+        <script src="js/search-for-a-book.js" defer></script>
+    </body>
+</html>
